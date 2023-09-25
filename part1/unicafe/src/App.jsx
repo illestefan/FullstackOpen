@@ -1,5 +1,29 @@
 import { useState } from 'react'
 
+// component for rendering the statistics
+const Statistics = (props) => {
+  // if not votes have been given until now return the message 'No feedback given'
+  if (props.total === 0) {
+    return (
+      <div>
+        No feedback given
+      </div>
+    )
+  }
+
+  // if votes have been given until now return the statistics
+  return (
+    <div>
+      <p>good {props.good}</p>
+      <p>neutral {props.neutral}</p>
+      <p>bad {props.bad}</p>
+      <p>all {props.total}</p>
+      <p>average {props.average}</p>
+      <p>positive {props.positive}%</p>
+    </div>
+  )
+}
+
 const Button = ({ handleClick, text }) => (
   <button onClick={handleClick}>
     {text}
@@ -7,7 +31,7 @@ const Button = ({ handleClick, text }) => (
 )
 
 const App = () => {
-  // define the state variables for the states 'good' (voted good), 'neutral' (voted neutral) and 'bad' (voted bad)
+// define the state variables for the states 'good' (voted good), 'neutral' (voted neutral) and 'bad' (voted bad)
   // as well as for the states 'total' (total number of votes), 'average' (average vote) and 'positive' (positive votes)
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
@@ -16,21 +40,21 @@ const App = () => {
   const [average, setAverage] = useState(0.0)
   const [positive, setPositive] = useState(0.0)
 
-  // handle CLick on the 'good' vote button
+// handle CLick on the 'good' vote button
   const handleGoodClick = () => {
-    // increment number of 'good' notes by one
+// increment number of 'good' notes by one
     const updatedGood = good + 1
-    // update the state variable 'good' with the new value
+// update the state variable 'good' with the new value
     setGood(updatedGood)
-    // calculate the new total number of votes from the updated good votes plus the neutral and bad votes
+// calculate the new total number of votes from the updated good votes plus the neutral and bad votes
     setTotal(updatedGood + neutral + bad)
-    // calculate the new average vote from good minus bad votes divided by the total number of votes
+// calculate the new average vote from good minus bad votes divided by the total number of votes
     setAverage((updatedGood - bad) / (updatedGood + neutral + bad))
-    // calculate the rate of positive votes from the updated good votes divided by the total number of votes times 100 to get a percentage
+// calculate the rate of positive votes from the updated good votes divided by the total number of votes times 100 to get a percentage
     setPositive(updatedGood / (updatedGood + neutral + bad) * 100)
   }
 
-  // handle Click on the 'neutral' vote button
+// handle Click on the 'neutral' vote button
   const handleNeutralClick = () => {
     const updatedNeutral = neutral + 1
     setNeutral(updatedNeutral)
@@ -39,7 +63,7 @@ const App = () => {
     setPositive(good / (good + updatedNeutral + bad) * 100)
   }
 
-  // handle Click on the 'bad' vote button
+// handle Click on the 'bad' vote button
   const handleBadClick = () => {
     const updatedBad = bad + 1
     setBad(updatedBad)
@@ -57,12 +81,14 @@ const App = () => {
       <Button handleClick={handleBadClick} text='bad'/>
       
       <h1>statistics</h1>
-      <p>good {good}</p>
-      <p>neutral {neutral}</p>
-      <p>bad {bad}</p>
-      <p>all {total}</p>
-      <p>average {average}</p>
-      <p>positive {positive}%</p>
+      <Statistics
+        good={good} 
+        neutral={neutral} 
+        bad={bad} 
+        total={total} 
+        average={average} 
+        positive={positive}
+      />      
     </div>
   )
 }
