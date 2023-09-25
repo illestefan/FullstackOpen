@@ -1,8 +1,15 @@
 import { useState } from 'react'
 
+// component for rendering a statistic line
+const StatisticLine = ({ text, value }) => {
+  return (
+    <p>{text} {value}</p>
+  )
+}
+
 // component for rendering the statistics
 const Statistics = (props) => {
-  // if not votes have been given until now return the message 'No feedback given'
+// if not votes have been given until now return the message 'No feedback given'
   if (props.total === 0) {
     return (
       <div>
@@ -11,15 +18,16 @@ const Statistics = (props) => {
     )
   }
 
-  // if votes have been given until now return the statistics
+// if votes have been given until now return the statistics by renderering the StatisticLine 
+// component with the different statistics
   return (
     <div>
-      <p>good {props.good}</p>
-      <p>neutral {props.neutral}</p>
-      <p>bad {props.bad}</p>
-      <p>all {props.total}</p>
-      <p>average {props.average}</p>
-      <p>positive {props.positive}%</p>
+      <StatisticLine text='good' value={props.good}/>
+      <StatisticLine text='neutral' value={props.neutral}/>
+      <StatisticLine text='bad' value={props.bad}/>
+      <StatisticLine text='all' value={props.total}/>
+      <StatisticLine text='average' value={props.average}/>
+      <StatisticLine text='positive' value={props.positive + '%'}/>
     </div>
   )
 }
