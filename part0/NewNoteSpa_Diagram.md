@@ -3,7 +3,7 @@ sequenceDiagram
     participant browser
     participant server
 
-    Note right of browser: User clicks the Save-Button
+    Note right of browser: the user clicks the "Save"-Button
     Note right of browser: browser adds new note to list of nodes: "notes.push(note)"
     Note right of browser: browser redraws the notes: "redrawNotes()" 
     Note right of browser: browser sends the new note to the server: "sendToServer(note)"
