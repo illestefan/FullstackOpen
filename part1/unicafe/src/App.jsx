@@ -1,9 +1,9 @@
 import { useState } from 'react'
 
-// component for rendering a statistic line
+// component for rendering a statistic line as a table row
 const StatisticLine = ({ text, value }) => {
   return (
-    <p>{text} {value}</p>
+    <tr><td>{text}</td> <td>{value}</td></tr>
   )
 }
 
@@ -18,17 +18,19 @@ const Statistics = (props) => {
     )
   }
 
-// if votes have been given until now return the statistics by renderering the StatisticLine 
-// component with the different statistics
+// if votes have been given until now - return the statistics by renderering the StatisticLine 
+// component for each statistic line (what resuluts in a table row) and add these rows to a table
   return (
-    <div>
-      <StatisticLine text='good' value={props.good}/>
-      <StatisticLine text='neutral' value={props.neutral}/>
-      <StatisticLine text='bad' value={props.bad}/>
-      <StatisticLine text='all' value={props.total}/>
-      <StatisticLine text='average' value={props.average}/>
-      <StatisticLine text='positive' value={props.positive + '%'}/>
-    </div>
+    <table>
+      <tbody>
+        <StatisticLine text="good" value ={props.good} />
+        <StatisticLine text="neutral" value ={props.neutral} />
+        <StatisticLine text="bad" value ={props.bad} />
+        <StatisticLine text="all" value ={props.total} />
+        <StatisticLine text="average" value ={props.average} />
+        <StatisticLine text="positive" value ={props.positive} />
+      </tbody>
+    </table>
   )
 }
 
