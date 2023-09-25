@@ -1,5 +1,17 @@
 import { useState } from 'react'
 
+const Button = ({ handleClick, text }) => (
+  <button onClick={handleClick}>
+    {text}
+  </button>
+)
+
+const DisplayAnecdoteVotes = ({ votes }) => {
+  return (
+    <p>has {votes} votes</p>
+  )
+}
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -13,10 +25,43 @@ const App = () => {
   ]
    
   const [selected, setSelected] = useState(0)
+  // store the votes of each anecdote in the 'votes' array
+  // create the array with the same length as the anecdotes array and fill it with zeros
+  const [votes, setVotes] = useState(Array(anecdotes.length).fill(0))
+
+  const handleNextClick = () => {
+    // take the length of the anecdotes array
+    const anecdotesLength = anecdotes.length
+    // and create a random index between 0 and the length of the anecdotes array
+    const randomIndex = Math.floor(Math.random() * anecdotesLength)
+    // set the selected anecdote to this of the random index
+    setSelected(randomIndex)
+  }
+
+  const handleVoteClick = () => {
+    console.log('vote clicked')
+    console.log('selected', selected)
+    console.log('votes', votes)
+    console.log('votes[selected] before ', votes[selected])
+    // first create a copy of the votes array
+    const votes_copy = [...votes]
+    // then increment the value in the copy
+    votes_copy[selected] += 1
+    // finally update the state with the copy
+    setVotes(votes_copy)
+    console.log('votes[selected] after ', votes_copy[selected])
+  }
 
   return (
     <div>
-      {anecdotes[selected]}
+      <div>
+        {anecdotes[selected]}
+        <DisplayAnecdoteVotes votes={votes[selected]} />
+      </div>
+      <div>
+        <Button handleClick={handleVoteClick} text='vote'/>
+        <Button handleClick={handleNextClick} text='next anecdote'/>
+      </div>
     </div>
   )
 }
