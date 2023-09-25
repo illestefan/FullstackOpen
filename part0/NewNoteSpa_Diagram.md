@@ -27,7 +27,12 @@ sequenceDiagram
 
     Note right of browser: The browser executes the callback function that renders the notes
 
-    Note right of browser: Click on Save-Button: browser adds new note to list of nodes: notes.push(note), redraws the notes: redrawNotes() and sends the new note to the server: sendToServer(note)
+    Note right of browser: .
+    Note right of browser: .
+    Note right of browser: .
+
+    Note right of browser: User clicks the Save-Button
+    Note right of browser: browser adds new note to list of nodes: notes.push(note), redraws the notes: redrawNotes() and sends the new note to the server: sendToServer(note)
 
     browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
     activate server

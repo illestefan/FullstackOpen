@@ -3,6 +3,8 @@ sequenceDiagram
     participant browser
     participant server
 
+    Note right of browser: The user clicks on the "Save"-Button
+
     browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
     activate server
     server-->>browser: HTPP redirect -> location: /exampleapp/notes
