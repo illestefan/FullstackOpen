@@ -1,20 +1,23 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 import Persons from './components/Persons'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-1234567', id: 1 },
-    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
-    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
-    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
-  ]) 
-
+  const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
+
+  // get the persons data from the server
+  useEffect(() => {
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => { setPersons(response.data) })
+  }, [])
   
+  // event handler for the form submit event (add button)
   const addPerson = (event) => {
     event.preventDefault()
     // check if name already exists = if newName is in persons
@@ -36,8 +39,12 @@ const App = () => {
     setNewNumber('')
   }
   
+  // event handlers for the input fields
+  // set the newName state to the value of the inputPersonName field
   const handleNameChange = (event) => { setNewName(event.target.value) }
+  // set the newNumber state to the value of the inputPersonNumber field
   const handleNumberChange = (event) => { setNewNumber(event.target.value) }
+  // set the newFilter state to the value of the inputFilter field
   const handleFilterChange = (event) => { setNewFilter(event.target.value) }
 
   return (
@@ -49,11 +56,11 @@ const App = () => {
       <h3>Add a new</h3>
 
       <PersonForm 
-        addPerson={addPerson} 
-        newName={newName} 
-        handleNameChange={handleNameChange} 
-        newNumber={newNumber} 
-        handleNumberChange={handleNumberChange}
+        addPerson={addPerson}                     // event handler for the forms submit event (add button)
+        newName={newName}                         // newName state
+        handleNameChange={handleNameChange}       // event handler for changes in the person name input field
+        newNumber={newNumber}                     // newNumber state
+        handleNumberChange={handleNumberChange}   // event handler for changes in the person number input field
       />
       
       <h3>Numbers</h3>
