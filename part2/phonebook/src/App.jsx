@@ -23,9 +23,29 @@ const App = () => {
     // check if name already exists = if newName is in persons
     const nameExists = persons.some(person => person.name === newName)
     if (nameExists) {
-      alert(`${newName} is already added to phonebook`)
+      // ask if the user wants to update the number
+      const result = window.confirm(
+        `${newName} is already added to phonebook, replace the old number with a new one?`
+      )
+      if (result) {
+        // find the person to update by it's name
+        const personToUpdate = persons.find(person => person.name === newName)
+        // create a new person by copying the person to update and replacing the number
+        const updatedPerson = { ...personToUpdate, number: newNumber }
+        // call the update method of the personService
+        personService
+          .update(personToUpdate.id, updatedPerson)
+          .then(returnedPerson => {
+            // set the persons state to a new array where the person to update 
+            // is replaced by the returnedPerson, all other persons are unchanged
+            setPersons(persons.map(person => person.id !== personToUpdate.id ? person : returnedPerson))
+            setNewName('')
+            setNewNumber('')
+          })
+      }
       return
     }
+    // the name does not exist yet, create a new person
     const newPerson = {
       name: newName,
       number: newNumber,
