@@ -1,12 +1,21 @@
+
 // render a Person as a table row
-const Person = ({ person }) => {
+const Person = ({ person, deletePerson }) => {
     return (
-      <tr><td>{person.name}</td><td>{person.number}</td></tr>
+      <tr>
+        <td>{person.name}</td>
+        <td>{person.number}</td>
+        <td><button onClick={() => {
+            console.log(`onClick: going to deletePerson(${person.id})`)
+            deletePerson(person.id)
+          } 
+        }>delete</button></td>
+    </tr>
     )
 }
 
 // render a list of Persons as a table
-const Persons = ({ persons, filter }) => {
+const Persons = ({ persons, filter, deletePerson }) => {
     // define the filter function for persons to show
     // if the filter is empty, show all persons
     // if the filter is not empty, show only persons whose name contains the filter string
@@ -20,7 +29,11 @@ const Persons = ({ persons, filter }) => {
         <table>
         <tbody>
             {personsToShow.map(person => 
-                <Person key={person.id} person={person} />
+                <Person 
+                    key={person.id} 
+                    person={person}
+                    deletePerson={deletePerson} 
+                />
             )}
         </tbody>
         </table>

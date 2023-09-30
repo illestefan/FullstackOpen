@@ -39,7 +39,24 @@ const App = () => {
         setNewNumber('')
       })
   }
-  
+
+  const deletePerson = (id) => {
+    console.log(`deletePerson(${id})`)
+    const personToDelete = persons.find(person => person.id === id)
+    const result = window.confirm(`Delete ${personToDelete.name}?`)
+    if (result) {
+      console.log(`deletePerson(${id}): confirmed`)
+      personService
+        .deletePerson(id)
+        .then(() => {
+          setPersons(persons.filter(person => person.id !== id))
+        })
+    }
+    else {
+      console.log(`deletePerson(${id}): cancelled`)
+    }
+  }
+
   // event handlers for the input fields
   // set the newName state to the value of the inputPersonName field
   const handleNameChange = (event) => { setNewName(event.target.value) }
@@ -66,7 +83,11 @@ const App = () => {
       
       <h3>Numbers</h3>
 
-      <Persons persons={persons} filter={newFilter} />
+      <Persons 
+        persons={persons} 
+        filter={newFilter} 
+        deletePerson={deletePerson}
+      />
     </div>
   )
 }
