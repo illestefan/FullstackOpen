@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import Persons from './components/Persons'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
+import personService from './services/persons'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
@@ -10,11 +10,11 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
 
-  // get the persons data from the server
+  // get persons from the server
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => { setPersons(response.data) })
+    personService
+      .getAll()
+      .then(initialPersons => { setPersons(initialPersons) })
   }, [])
   
   // event handler for the form submit event (add button)
@@ -29,14 +29,15 @@ const App = () => {
     const newPerson = {
       name: newName,
       number: newNumber,
-      id: persons.length + 1
     }
-  
-    // use the setPersons hook to add the new Person to the persons state
-    setPersons(persons.concat(newPerson))
-    // set the input fields for Name and Number back to empty strings
-    setNewName('')
-    setNewNumber('')
+    // post the newPerson to the server
+    personService
+      .create(newPerson)
+      .then(returnedPerson => { 
+        setPersons(persons.concat(returnedPerson))
+        setNewName('')
+        setNewNumber('')
+      })
   }
   
   // event handlers for the input fields
