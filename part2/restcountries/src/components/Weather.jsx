@@ -32,6 +32,7 @@ const Weather = ({ capital }) => {
     }
 
     // if weatherData is not null, show the weather data
+    // render the wind direction as an arrow using the WindArrow component
     const icon = weatherData.weather[0].icon;
     const iconUrl = `http://openweathermap.org/img/wn/${icon}@2x.png`;
     return (
