@@ -80,6 +80,7 @@ const App = () => {
           setTimeout(() => {setNotification({notificationType: null, message: null})}, 2500)
         })
         .catch(error => {
+          console.log(error)
           setNotification({notificationType: 'error', message: `Information of ${personToDelete.name} has already been removed from server`})
           setTimeout(() => {setNotification({notificationType: null, message: null})}, 5000)
         })
