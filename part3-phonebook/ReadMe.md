@@ -2,9 +2,9 @@
 
 # Fullstackopen 
 
-## Part3
+## Part3 Phonebook
 
-This is part3 of the fullstackopen course.
+This is the part3 phonebook of the fullstackopen course.
 
 It contains the phonebook backend and the phonebook frontend.
 
