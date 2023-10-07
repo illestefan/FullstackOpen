@@ -14,7 +14,10 @@ const App = () => {
   useEffect(() => {
     noteService
       .getAll()
-      .then(initalNotes => {setNotes(initalNotes)})
+      .then(initalNotes => {
+        console.log(initalNotes)
+        setNotes(initalNotes)
+      })
   }, [])
 
   const addNote = (event) => {
