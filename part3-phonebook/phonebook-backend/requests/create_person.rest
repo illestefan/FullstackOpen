@@ -1,8 +1,8 @@
-//POST http://localhost:3001/api/persons
-POST https://si-phonebook-backend.fly.dev/api/persons
+POST http://localhost:3001/api/persons
+//POST https://si-phonebook-backend.fly.dev/api/persons
 Content-Type: application/json
 
 {
-  "name": "Mary Jane Poppins",
-  "number": "0039 3876-353435666"
+  "name": "Hans Wurst",
+  "number": "0033-123456789"
 }
