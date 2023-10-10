@@ -59,28 +59,32 @@ app.put('/api/notes/:id', (request, response, next) => {
     important: body.important,
   }
 
-  Note.findByIdAndUpdate(request.params.id, note, { new: true })
+  Note.findByIdAndUpdate(request.params.id, note, { new: true, runValidators: true, context: 'query' })
     .then(updatedNote => {
       response.json(updatedNote)
     })
     .catch(error => next(error))
 })
 
-app.post('/api/notes', (request, response) => {
+app.post('/api/notes', (request, response, next) => {
   const body = request.body
   console.log(body)
 
+  /*
   if (!body.content) {  
     return response.status(400).json({ error: 'content missing' })
   }
+  */
 
   const note = new Note({
     content: body.content,
     important: body.important || false
   })
-  note.save().then(savedNote => {
+  note.save()
+  .then(savedNote => {
     response.json(savedNote)
   })
+  .catch(error => next(error))
 })
 
 const unknownEndpoint = (request, response) => {
@@ -93,7 +97,9 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
-  } 
+  } else if (error.name == 'ValidationError') {
+    return response.status(400).json({ error: error.message })
+  }
 
   next(error)
 }
