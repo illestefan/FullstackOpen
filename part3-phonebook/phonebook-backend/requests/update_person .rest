@@ -1,0 +1,8 @@
+PUT http://localhost:3001/api/persons/65250b5f66d34a798a02bfff
+//PUT https://si-phonebook-backend.fly.dev/api/persons/65250b5f66d34a798a02bfff
+Content-Type: application/json
+
+{
+  "name": "Hans Wurst",
+  "number": "03c3-129856"
+}

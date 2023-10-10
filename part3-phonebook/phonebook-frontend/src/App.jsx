@@ -35,6 +35,7 @@ const App = () => {
         // create a new person by copying the person to update and replacing the number
         const updatedPerson = { ...personToUpdate, number: newNumber }
         // call the update method of the personService
+
         personService
           .update(personToUpdate.id, updatedPerson)
           .then(returnedPerson => {
@@ -45,6 +46,11 @@ const App = () => {
             setNewNumber('')
             setNotification({notificationType: 'success', message: `Updated ${returnedPerson.name}`})
             setTimeout(() => {setNotification({notificationType: null, message: null})}, 2500)
+          })
+          .catch(error => {
+            console.log(error)
+            setNotification({notificationType: 'error', message: error.response.data.error})
+            setTimeout(() => {setNotification({notificationType: null, message: null})}, 5000)
           })
       }
       return
@@ -64,6 +70,11 @@ const App = () => {
         // debugger
         setNotification({notificationType: 'success', message: `Added ${returnedPerson.name}`})
         setTimeout(() => {setNotification({notificationType: null, message: null})}, 2500)
+      })
+      .catch (error => {
+        console.log(error.response.data)
+        setNotification({notificationType: 'error', message: error.response.data.error})
+        setTimeout(() => {setNotification({notificationType: null, message: null})}, 5000)
       })
   }
 

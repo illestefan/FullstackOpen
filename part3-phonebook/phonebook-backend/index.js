@@ -84,12 +84,15 @@ app.put('/api/persons/:id', (request, response, next) => {
       number: body.number
     }
   
-    Person.findByIdAndUpdate(request.params.id, person, { new: true })
-      .then(updatedPerson => {
+    Person.findByIdAndUpdate(request.params.id, person, { new: true, runValidators: true, context: 'query' })
+    .then(updatedPerson => {
         console.log('updated person: ', updatedPerson)
         response.json(updatedPerson)
-      })
-      .catch(error => next(error))
+    })
+    .catch(error => {
+        console.log('error updating person: ', error)
+        next(error)
+    })
 })
 
 // add a person route
@@ -98,18 +101,21 @@ app.post('/api/persons', (request, response, next) => {
     console.log('adding a person: ', body)
 
     // if name or number is missing, return an error
+    /*
     if (!body.name) {
         response.statusMessage = 'name missing'
         return response.status(400).json({
             error: 'name is missing'
         })
     }
+    
     if (!body.number) {
         response.statusMessage = 'number missing'
         return response.status(400).json({
             error: 'number is missing'
         })
     }
+    */
 
     // generate a new person object
     const person = new Person({
