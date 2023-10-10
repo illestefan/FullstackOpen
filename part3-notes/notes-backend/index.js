@@ -19,9 +19,9 @@ app.use(cors())
 app.use(express.static('dist'))
 
 app.get('/', (request, response) => {
-    response.send('<h1>Hello World!</h1>')
-  })
-  
+  response.send('<h1>Hello World!</h1>')
+})
+
 app.get('/api/notes', (request, response) => {
   Note.find({}).then(notes => {
     console.log('got notes', notes)
@@ -31,21 +31,23 @@ app.get('/api/notes', (request, response) => {
 
 app.get('/api/notes/:id', (request, response, next) => {
   Note.findById(request.params.id)
-  .then(note => {
-    if (note) {
-      console.log(`got note for id ${request.params.id}`, note)
-      response.json(note)
-    } else {
-      console.log(`note for id ${request.params.id} not found`)
-      response.status(404).end()
-    }
-  })
-  .catch (error => next(error))
+    .then(note => {
+      if (note) {
+        console.log(`got note for id ${request.params.id}`, note)
+        response.json(note)
+      } else {
+        console.log(`note for id ${request.params.id} not found`)
+        response.status(404).end()
+      }
+    })
+    .catch (error => next(error))
 })
 
 app.delete('/api/notes/:id', (request, response, next) => {
-  Note.findByIdAndRemove(request.params.id) 
+  Note.findByIdAndRemove(request.params.id)
     .then(result => {
+      console.log(`deleted note for id ${request.params.id}`)
+      console.log('result', result)
       response.status(204).end()
     })
     .catch(error => next(error))
@@ -71,7 +73,7 @@ app.post('/api/notes', (request, response, next) => {
   console.log(body)
 
   /*
-  if (!body.content) {  
+  if (!body.content) {
     return response.status(400).json({ error: 'content missing' })
   }
   */
@@ -81,10 +83,10 @@ app.post('/api/notes', (request, response, next) => {
     important: body.important || false
   })
   note.save()
-  .then(savedNote => {
-    response.json(savedNote)
-  })
-  .catch(error => next(error))
+    .then(savedNote => {
+      response.json(savedNote)
+    })
+    .catch(error => next(error))
 })
 
 const unknownEndpoint = (request, response) => {
@@ -97,7 +99,7 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
-  } else if (error.name == 'ValidationError') {
+  } else if (error.name === 'ValidationError') {
     return response.status(400).json({ error: error.message })
   }
 
@@ -106,9 +108,8 @@ const errorHandler = (error, request, response, next) => {
 
 // this has to be the last loaded middleware.
 app.use(errorHandler)
-  
+
 const PORT = process.env.PORT || 3002
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
-
