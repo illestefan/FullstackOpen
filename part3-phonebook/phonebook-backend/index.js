@@ -55,6 +55,7 @@ app.get('/api/persons/:id', (request, response, next) => {
         console.log('found person: ', person)
         response.json(person)
       } else {
+        // could it be possible that we don't get a person record without an error? Not sure! Will have to find out!
         response.statusMessage = `Person with id ${id} not found`
         response.status(404).end()
       }
