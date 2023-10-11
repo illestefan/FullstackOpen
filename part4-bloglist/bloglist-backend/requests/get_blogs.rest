@@ -1,0 +1,2 @@
+GET http://localhost:3003/api/blogs
+//GET https://si-bloglist-backend.fly.dev/api/blogs
