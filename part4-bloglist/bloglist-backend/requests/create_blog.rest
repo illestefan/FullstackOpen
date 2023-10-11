@@ -2,8 +2,8 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-  "title": "How to make a good coffee",
-  "author": "Hans Wurst",
-  "url": "https://www.google.com",
+  "title": "Holla die Waldfee",
+  "author": "Harry Potter",
+  "url": "https://pottwal.com",
   "likes": 0
 }

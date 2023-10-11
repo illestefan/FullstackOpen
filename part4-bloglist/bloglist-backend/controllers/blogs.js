@@ -15,6 +15,7 @@ blogsRouter.get('/:id', (request, response, next) => {
       if (blog) {
         response.json(blog)
       } else {
+        response.statusMessage = `Blog with id ${request.params.id} not found`
         response.status(404).end()
       }
     })
