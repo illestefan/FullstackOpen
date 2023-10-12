@@ -16,6 +16,7 @@ const totalLikes = (blogs) => {
     : blogs.reduce(reducer, 0)
 }
 
+// get the blog with the most likes
 const favoriteBlog = (blogs) => {
   // return empty object if list of blogs is empty
   if (blogs.length === 0) {
@@ -34,6 +35,7 @@ const favoriteBlog = (blogs) => {
   })
 }
 
+// get the author with the most blogs
 const mostBlogs = (blogs) => {
   // return empty object if list of blogs is empty
   if (blogs.length === 0) {
@@ -71,6 +73,7 @@ const mostBlogs = (blogs) => {
   }
 }
 
+// get the author with the most likes
 const mostLikes = (blogs) => {
   if (blogs.length === 0) {
     return {}
