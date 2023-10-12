@@ -71,9 +71,35 @@ const mostBlogs = (blogs) => {
   }
 }
 
+const mostLikes = (blogs) => {
+  if (blogs.length === 0) {
+    return {}
+  }
+
+  // get the list of blogs grouped by author (lodash.groupBy)
+  // ==> { author1: [blog1, blog2, ...], author2: [blog1, blog2, ...], ... }
+  const grouped = lodash.groupBy(blogs, 'author')
+  logger.info('grouped: ', grouped)
+
+  // map the grouped list to a list of { author, totalLikes } objects
+  // use the totalLikes function to calculate the total likes for each author
+  const likes = lodash.map(grouped, (group_by_author, author) => ({ author, totalLikes: totalLikes(group_by_author) }))
+  logger.info('likes: ', likes)
+
+  // finally get the author with the most likes = get from the likes list the entry with the max totalLikes
+  const mostLikesEntry = lodash.maxBy(likes, 'totalLikes')
+
+  // and return an object with the author and the totalLikes
+  return {
+    author: mostLikesEntry.author,
+    likes: mostLikesEntry.totalLikes
+  }
+}
+
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
-  mostBlogs
+  mostBlogs,
+  mostLikes
 }
