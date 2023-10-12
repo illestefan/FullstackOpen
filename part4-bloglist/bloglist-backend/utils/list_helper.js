@@ -6,11 +6,16 @@ const dummy = (blogs) => {
   return 1
 }
 
+// get the total number of likes for all blogs in the list
 const totalLikes = (blogs) => {
+  // the reducer function is applied to each element of the array, resulting in a single output value
+  // here we take the likes and sum them up to the total number of likes of all blogs in the list
   const reducer = (sum, item) => {
     return sum + item.likes
   }
 
+  // return 0 if list of blogs is empty
+  // otherwise return the total number of likes using the reducer function
   return blogs.length === 0
     ? 0
     : blogs.reduce(reducer, 0)
@@ -23,11 +28,13 @@ const favoriteBlog = (blogs) => {
     return {}
   }
 
-  // lay out blogs to a list with blog.likes and find the max
+  // first lay out blogs to a list with blog.likes and find the max
   const maxLikes = Math.max(...blogs.map(blog => blog.likes))
-  // find the blog that has the max likes
+
+  // then find the blog that has the max likes
   const favBlog = blogs.find(blog => blog.likes === maxLikes)
-  // return object as specified
+
+  // finally return object as specified
   return ({
     title: favBlog.title,
     author: favBlog.author,
@@ -86,6 +93,11 @@ const mostLikes = (blogs) => {
 
   // map the grouped list to a list of { author, totalLikes } objects
   // use the totalLikes function to calculate the total likes for each author
+  /*[
+      { author: 'Michael Chan', totalLikes: 7 },
+      { author: 'Edsger W. Dijkstra', totalLikes: 17 },
+      { author: 'Robert C. Martin', totalLikes: 12 }
+    ] */
   const likes = lodash.map(grouped, (group_by_author, author) => ({ author, totalLikes: totalLikes(group_by_author) }))
   logger.info('likes: ', likes)
 
