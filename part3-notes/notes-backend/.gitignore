@@ -25,3 +25,4 @@ dist-ssr
 
 # do not publish sensitive information to GitHub
 .env
+docker.txt
