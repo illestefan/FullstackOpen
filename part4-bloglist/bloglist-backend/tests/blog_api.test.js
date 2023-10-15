@@ -49,7 +49,7 @@ test('a valid blog can be added', async () => {
   expect(urls).toContain('https://reactpatterns.com/')
 })
 
-test.only('missing likes defaults to zero', async () => {
+test('missing likes defaults to zero', async () => {
   const newBlog = {
     author: 'Michael Chan',
     title: 'React patterns',
@@ -64,6 +64,44 @@ test.only('missing likes defaults to zero', async () => {
 
   const savedBlog = response.body
   expect(savedBlog.likes).toBe(0)
+})
+
+test('missing title results in error 400', async () => {
+  const newBlog = {
+    author: 'Michael Chan',
+    url: 'https://reactpatterns.com/',
+    likes: 2,
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+})
+
+test('missing url results in error 400', async () => {
+  const newBlog = {
+    author: 'Michael Chan',
+    title: 'React patterns',
+    likes: 2,
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+})
+
+test('missing title and url resulting in error 400', async () => {
+  const newBlog = {
+    author: 'Michael Chan',
+    likes: 2,
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
 })
 
 test('a non existing blog returns 404', async () => {
