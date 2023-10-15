@@ -24,7 +24,7 @@ test('unique identifier of blog posts is named id', async () => {
   expect(response.body[0].id).toBeDefined()
 })
 
-test.only('a valid blog can be added', async () => {
+test('a valid blog can be added', async () => {
   const newBlog = {
     author: 'Michael Chan',
     likes: 7,
@@ -47,6 +47,23 @@ test.only('a valid blog can be added', async () => {
   expect(authors).toContain('Michael Chan')
   const urls = blogsAtEnd.map(n => n.url)
   expect(urls).toContain('https://reactpatterns.com/')
+})
+
+test.only('missing likes defaults to zero', async () => {
+  const newBlog = {
+    author: 'Michael Chan',
+    title: 'React patterns',
+    url: 'https://reactpatterns.com/',
+  }
+
+  const response = await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const savedBlog = response.body
+  expect(savedBlog.likes).toBe(0)
 })
 
 test('a non existing blog returns 404', async () => {
