@@ -24,6 +24,44 @@ test('unique identifier of blog posts is named id', async () => {
   expect(response.body[0].id).toBeDefined()
 })
 
+test.only('a valid blog can be added', async () => {
+  const newBlog = {
+    author: 'Michael Chan',
+    likes: 7,
+    title: 'React patterns',
+    url: 'https://reactpatterns.com/',
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const blogsAtEnd = await helper.blogsInDb()
+  expect (blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
+
+  const titles = blogsAtEnd.map(n => n.title)
+  expect(titles).toContain('React patterns')
+  const authors = blogsAtEnd.map(n => n.author)
+  expect(authors).toContain('Michael Chan')
+  const urls = blogsAtEnd.map(n => n.url)
+  expect(urls).toContain('https://reactpatterns.com/')
+})
+
+test('a non existing blog returns 404', async () => {
+  const validNonexistingId = await helper.nonExistingId()
+  await api
+    .get(`/api/blogs/${validNonexistingId}`)
+    .expect(404)
+})
+
+test('a non existing route returns 404', async () => {
+  await api
+    .get('/api/foobar')
+    .expect(404)
+})
+
 afterAll(async () => {
   await mongoose.connection.close()
 })
